@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Product Page</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --tg-color-bg: #f4f4f4;
+            --tg-color-text: #000;
+            --tg-color-hint: #8e8e93;
+            --tg-color-button: #007aff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--tg-color-bg);
+            color: var(--tg-color-text);
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: calc(75px + 0.5px);
+        }
+        
+        .back-button {
+            top: 20px;
+            left: 50px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            padding: 15px;
+            transition: transform 0.1s ease;
+        }
+        .back-button:active {
+            transform: scale(0.9);
+        }
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+        }
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .carousel-images {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .carousel-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        
+        .carousel-nav-btn {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background-color: white;
+        }
+        
+        .product-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .options-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .option-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .option-label {
+            width: 100px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .option-buttons {
+            display: flex;
+            gap: 8px;
+            flex-grow: 1;
+        }
+        
+        .option-button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option-button.active {
+            background-color: var(--tg-color-button);
+            color: white;
+            border-color: var(--tg-color-button);
+        }
+        
+        .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .product-price::before {
+            content: "Цена: ";
+            font-weight: bold;
+        }
+        
+        .product-price::after {
+            content: " ₽";
+            font-weight: bold;
+        }
+        
+        .product-description {
+            background-color: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            max-height: 150px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .product-description.expanded {
+            max-height: 2000px;
+        }
+        
+        .expand-description {
+            text-align: center;
+            color: var(--tg-color-button);
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        
+        .fixed-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+        
+        #cart-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .add-to-cart, .buy-now-button, .go-to-cart-button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .add-to-cart {
+            background-color: #f2f2f7;
+            color: var(--tg-color-button);
+        }
+        
+        .add-to-cart:hover {
+            background-color: #e5e5ea;
+            transform: scale(1.02);
+        }
+        .add-to-cart:active {
+            background-color: #d1d1d6;
+            transform: scale(0.98);
+        }
+        
+        .buy-now-button, .go-to-cart-button {
+            background-color: var(--tg-color-button);
+            color: white;
+        }
+        
+        .buy-now-button:hover, .go-to-cart-button:hover {
+            background-color: #0066d6;
+            transform: scale(1.02);
+        }
+        
+        .buy-now-button:active, .go-to-cart-button:active {
+            background-color: #005ab8;
+            transform: scale(0.98);
+        }
+        
+        #quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f2f2f7;
+            border-radius: 8px;
+            padding: 15px;
+            flex: 1;
+            box-sizing: border-box;
+        }
+        
+        #quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f2f2f7;
+            border-radius: 8px;
+            padding: 5px 10px;
+            flex: 1;
+        } 
+        
+        .control-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background-color: white;
+            border-radius: 6px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--tg-color-button);
+        }
+        
+        .quantity-display {
+            font-size: 16px;
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        button, .control-button, .add-to-cart, .buy-now-button, .carousel-nav-btn, .option-button {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        
+        button:hover, 
+        .control-button:hover, 
+        .add-to-cart:hover, 
+        .buy-now-button:hover, 
+        .carousel-nav-btn:hover, 
+        .option-button:hover {
+            background-color: #0066d6;
+            transform: scale(1.05);
+            color: white;
+        }
+        
+        button:active, 
+        .control-button:active, 
+        .add-to-cart:active, 
+        .buy-now-button:active, 
+        .carousel-nav-btn:active, 
+        .option-button:active {
+            background-color: #005ab8;
+            transform: scale(0.95);
+            color: #f0f0f0;
+        }
+        
+        button, .add-to-cart, .buy-now-button, .control-button, .carousel-nav-btn, .option-button {
+            opacity: 0.9;
+        }
+        button:hover, .add-to-cart:hover, .buy-now-button:hover, .control-button:hover {
+            opacity: 1;
+        }
+        
+        .buy-now-button {
+            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.3s ease;
+        }
+        .buy-now-button:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .fullscreen-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(0,0,0,0.5);
+        }
+        .fullscreen-close {
+            color: white;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .fullscreen-image-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        
+        .product-specs {
+            background-color: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .specs-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .specs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        
+        .spec-name {
+            color: var(--tg-color-hint);
+            font-size: 14px;
+        }
+        
+        .spec-value {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+
+        .back-arrow {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #007AFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-arrow:hover {
+            background-color: #007AFF;
+        }
+
+        .back-arrow:hover svg {
+            stroke: white;
+        }
+
+        .back-arrow svg {
+            width: 24px;
+            height: 24px;
+            stroke: #007AFF;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+        }
+
+        .back-arrow:active {
+            transform: scale(0.95);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .cart-icon {
+            position: relative; 
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #007AFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-icon:hover {
+            background-color: #007AFF;
+        }
+        
+        .cart-icon:hover svg {
+            stroke: white;
+        }
+        
+        .cart-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: #007AFF;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-icon:active {
+            transform: scale(0.95);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #FF3B30;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+          }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        
+            .back-arrow {
+                margin-bottom: 0;
+                margin-right: 0;
+            }
+        
+            .cart-icon {
+                margin-bottom: 0;
+            }
+        }
+
+    </style>
+</head>
+
+<script>
+    // Инициализация Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.setHeaderColor('#000');
+    tg.ready();
+    tg.expand();  // Расширяем на весь экран
+    tg.disableVerticalSwipes();
+    tg.BackButton.hide();
+    // Устанавливаем основной цвет
+
+    
+</script>
+
+
+<body>
+{% block content %}
+        <!-- Страница с исправленной структурой и адаптивностью -->
+        <div class="page-header">
+            <div class="back-arrow" onclick="window.location =  '{% url 'category' category%}'">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </div>
+            <div class="cart-icon" onclick="window.location.href='{% url 'shopping' %}'">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+                </svg>
+                <span class="cart-count" >{{total_quantity}}</span>
+              </div>
+        </div>
+        
+        <div class="image-carousel">
+            <div class="carousel-images">
+            {% for element in product_images %}
+            <img src="{{element.image.url}}" alt="">
+            {% endfor %}
+        </div>
+        <div class="carousel-nav">
+            <button class="carousel-nav-btn prev">◀</button>
+            <button class="carousel-nav-btn next">▶</button>
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+
+    
+    <div class="product-title">{{base_product.title}}</div>
+    <div class="options-container">
+        {%if category != 'headphones' and category != 'accessories' and category != 'watches' %}
+        <div class="option-row">
+            <div class="option-label">Память:</div>
+            <div class="option-buttons">
+                {% for element in product_tumblers %}
+                    <button class="option-button">{{element.tumbler1}}</button>
+                {% endfor %}
+            </div>
+        </div>
+    {%endif%}
+        <div class="option-row">
+            <div class="option-label">Цвет:</div>
+            <div class="option-buttons">
+                <div class="option-buttons">
+                    {% for element in product %}
+                        <button class="option-button">{{ element.variant_name }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-price">{{obj_choice.price}}</div>
+
+    <div class="product-description">
+        {{base_product.description}}
+    
+        
+        <div class="product-specs">
+            <div class="specs-title">Характеристики</div>
+            <div class="specs-list">
+        {%for key, item in specs.items%}
+            <div class="spec-item">
+                <span class="spec-name">{{key}}: </span>
+                <span class="spec-value">  {{item}}</span>
+            </div>
+        {%endfor%}
+        </div>
+    </div>
+    </div>
+    <div class="expand-description">Посмотреть все</div>
+
+    
+
+        <div class="fixed-panel">
+            
+                {% csrf_token %}
+                <!-- Скрытое поле -->
+                <input type="hidden" name="quantity" id="hidden-quantity" value="1">
+
+
+                <!-- Изначальные кнопки -->
+                <button type="submit" class="add-to-cart" id="add-to-cart-btn">В корзину</button>
+                <button type="button" class="buy-now-button" id="buy-now-btn" >Купить сейчас</button>
+                {% comment %} <input type="hidden" id="checkout-url" value="{% url 'checkout' obj_choice.id %}"> {% endcomment %}
+                {% comment %} value="{% url 'checkout' obj_choice.id %}" onclick="window.location.href=this.value" {% endcomment %}
+                
+                
+                <!-- Панель управления количеством -->
+                <div id="quantity-control" style="display: none;">
+                    <button type="button" class="control-button" id="decrease-button">−</button>
+                    {% comment %} {% for item, details in value.items %} {% endcomment %}
+                    {% comment %} {{ details.quantity|default:"0" }} {% endcomment %}
+
+                    
+                    <span class="quantity-display" data-initial-quantity>{{ quantity }}</span>
+                
+                   
+                    {% comment %} {% endfor %} {% endcomment %}
+                    <button type="button" class="control-button" id="increase-button">+</button>
+                </div>
+                <button type="button" class="go-to-cart-button" id="go-to-cart-btn" style="display: none;" onclick="window.location =  '{% url 'shopping' %}'">
+                    Перейти в корзину
+                </button>
+            
+        </div>
+
+        <input type="hidden" id="hidden-obj-choice-id" value="{{ obj_choice.id }}">
+        <input type="hidden" id="initial-memory" value="{{ obj_choice.tumbler1 }}">
+        <input type="hidden" id="initial-color" value="{{ obj_color}}">
+    {% endblock %}
+    
+    
+    
+    <script>    
+       "use strict";
+        document.addEventListener('DOMContentLoaded', () => {
+            // ------------- Карусель изображений -------------
+            const carousel = document.querySelector('.carousel-images');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            const slides = carousel.querySelectorAll('img');
+
+            
+            let currentSlide = 0;
+            
+
+
+
+
+            const quantityDisplay = document.querySelector('.quantity-display');
+            let currentQuantity = parseInt(quantityDisplay.textContent);
+
+            
+            
+            
+
+            function initializeUIState() {
+                if (currentQuantity > 0) {
+                    addToCartBtn.style.display = 'none';
+                    buyNowBtn.style.display = 'none';
+                    quantityControl.style.display = 'flex';
+                    goToCartBtn.style.display = 'block';
+                    quantityDisplay.textContent = currentQuantity;
+                    increaseButton.disabled = currentQuantity >= MAX_QUANTITY;
+                } else {
+                    addToCartBtn.style.display = 'block';
+                    buyNowBtn.style.display = 'block';
+                    quantityControl.style.display = 'none';
+                    goToCartBtn.style.display = 'none';
+                }
+            }
+            
+            
+            const description = document.querySelector('.product-description');
+            const expandButton = document.querySelector('.expand-description');
+            const specs = document.querySelector('.product-specs');
+            
+            expandButton.addEventListener('click', () => {
+                description.classList.toggle('expanded');
+                
+                // Обновляем текст кнопки
+                expandButton.textContent = description.classList.contains('expanded') 
+                    ? 'Свернуть'
+                    : 'Посмотреть все';
+                    
+                // Плавная прокрутка к характеристикам при раскрытии
+                if (description.classList.contains('expanded')) {
+                    setTimeout(() => {
+                        specs.scrollIntoView({ behavior: 'smooth' });
+                    }, 300); // Задержка для анимации раскрытия
+                }
+            });
+
+        
+            
+
+            function updateCarousel() {
+                carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+        
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide > 0) ? currentSlide - 1 : slides.length - 1;
+                updateCarousel();
+            });
+        
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide < slides.length - 1) ? currentSlide + 1 : 0;
+                updateCarousel();
+            });
+        
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateCarousel();
+                });
+            });
+        
+            
+            
+            
+            
+            // ------------- Управление опциями товара (тумблеры) -------------
+            function initializeOptionToggles() {
+                const optionRows = document.querySelectorAll('.option-row');
+                
+                // Получаем значения из скрытых полей
+                const initialMemory = document.getElementById('initial-memory').value.trim();
+                const initialColor = document.getElementById('initial-color').value.trim();
+                
+                console.log('Initial Memory:', initialMemory); // Отладка
+                console.log('Initial Color:', initialColor);   // Отладка
+                
+                optionRows.forEach(row => {
+                    const buttons = row.querySelectorAll('.option-button');
+                    const category = row.querySelector('.option-label').textContent.replace(':', '').trim();
+                    
+                    // Добавляем обработчик кликов
+                    buttons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            buttons.forEach(btn => btn.classList.remove('active'));
+                            this.classList.add('active');
+                            updateProductDisplay();
+                        });
+                    });
+                    
+                    // Устанавливаем начальное состояние
+                    let valueToSelect = '';
+                    if (category === 'Память' && initialMemory) {
+                        valueToSelect = initialMemory;
+                    } else if (category === 'Цвет' && initialColor) {
+                        valueToSelect = initialColor;
+                    }
+                    
+                    if (valueToSelect) {
+                        const buttonToActivate = Array.from(buttons).find(btn => btn.textContent.trim() === valueToSelect);
+                        if (buttonToActivate) {
+                            buttons.forEach(btn => btn.classList.remove('active')); // Сбрасываем все active
+                            buttonToActivate.classList.add('active');              // Устанавливаем нужный
+                            console.log(`Activated button for ${category}: ${valueToSelect}`); // Отладка
+                        } else {
+                            console.warn(`Button with text "${valueToSelect}" not found for ${category}`);
+                        }
+                    }
+                });
+                
+                updateProductDisplay();
+            }
+
+
+
+            function updateProductDisplay() {
+                // Получаем активные выборы пользователя не из localStorage, а только из активных кнопок
+                const memory = getActiveOptionText('Память');
+                const color = getActiveOptionText('Цвет');
+                const objChoiceId = document.getElementById('hidden-obj-choice-id').value;
+                
+                // Создаем объект с данными для отправки на сервер
+                const data = {
+                    memory: memory,
+                    color: color
+                };
+                
+                // Отправляем fetch-запрос на сервер
+                fetch('{% url "update_product_page" base_id %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCsrfToken() // Функция для получения CSRF токена
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка запроса');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Получаем текущий выбранный цвет перед обновлением
+                    const selectedColor = getActiveOptionText('Цвет');
+                    // Получаем текущую выбранную память перед обновлением
+                    const selectedMemory = getActiveOptionText('Память');
+                    
+                    // Обновление id изменяемого товара
+                    document.getElementById('hidden-obj-choice-id').value = data.obj_id;
+                    
+                    // Находим контейнер кнопок памяти
+                    const optionLabels = document.querySelectorAll('.option-label');
+                    let memoryButtonsContainer;
+                    
+                    // Ищем элемент с текстом "Память:"
+                    for (const label of optionLabels) {
+                        if (label.textContent.includes('Память:')) {
+                            memoryButtonsContainer = label.closest('.option-row').querySelector('.option-buttons');
+                            break;
+                        }
+                    }
+                    
+                    if (memoryButtonsContainer) {
+                        // Очищаем текущие кнопки
+                        memoryButtonsContainer.innerHTML = '';
+                        
+                        // Добавляем новые кнопки на основе data.product_tumblers
+                        data.product_tumblers.forEach(item => {
+                            // Получаем id и значение памяти из объекта
+                            const id = Object.keys(item)[0];
+                            const memory = Object.values(item)[0];
+                            
+                            // Создаем новую кнопку
+                            const button = document.createElement('button');
+                            button.className = 'option-button';
+                            button.textContent = memory;
+                            button.setAttribute('data-variant-id', id);
+                            
+                            // Добавляем обработчик события для кнопки
+                            button.addEventListener('click', function() {
+                                // Убираем класс active у всех кнопок в этом контейнере
+                                const buttons = this.closest('.option-buttons').querySelectorAll('.option-button');
+                                buttons.forEach(btn => btn.classList.remove('active'));
+                                
+                                // Добавляем класс active к нажатой кнопке
+                                this.classList.add('active');
+                                
+                                // Вызываем функцию обновления отображения товара
+                                updateProductDisplay();
+                            });
+                            
+                            // Если это та память, которая была выбрана раньше, делаем кнопку активной
+                            if (memory === selectedMemory) {
+                                button.classList.add('active');
+                            }
+                            
+                            // Добавляем кнопку в контейнер
+                            memoryButtonsContainer.appendChild(button);
+                        });
+                        
+                        // Если не нашлось активной кнопки памяти, активируем первую
+                        if (memoryButtonsContainer.querySelectorAll('.option-button.active').length === 0 && 
+                            memoryButtonsContainer.querySelectorAll('.option-button').length > 0) {
+                            memoryButtonsContainer.querySelector('.option-button').classList.add('active');
+                        }
+                    }
+                    
+                    // Восстанавливаем выбранный цвет, если он был
+                    if (selectedColor) {
+                        const optionLabels = document.querySelectorAll('.option-label');
+                        let colorButtonsContainer;
+                        
+                        // Ищем элемент с текстом "Цвет:"
+                        for (const label of optionLabels) {
+                            if (label.textContent.includes('Цвет:')) {
+                                colorButtonsContainer = label.closest('.option-row').querySelector('.option-buttons');
+                                break;
+                            }
+                        }
+                        
+                        if (colorButtonsContainer) {
+                            const colorButtons = colorButtonsContainer.querySelectorAll('.option-button');
+                            colorButtons.forEach(button => {
+                                if (button.textContent.trim() === selectedColor) {
+                                    // Убираем класс active у всех кнопок цвета
+                                    colorButtons.forEach(btn => btn.classList.remove('active'));
+                                    
+                                    // Добавляем класс active к кнопке с нужным цветом
+                                    button.classList.add('active');
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Остальной код без изменений
+                    document.querySelector('.quantity-display').textContent = data.quantity;
+                    currentQuantity = parseInt(data.quantity);
+                    console.log("Значение currentQuantity после присвоения:", currentQuantity);
+                    initializeUIState();
+                    updateCarouselImages(data.images);
+                    updateProductTitle(data.title, data.price);
+                });
+            }
+
+
+            function getActiveOptionText(category) {
+                const optionRows = document.querySelectorAll('.option-row');
+                for (const row of optionRows) {
+                    const label = row.querySelector('.option-label').textContent.replace(':', '');
+                    if (label === category) {
+                        const activeButton = row.querySelector('.option-button.active');
+                        if (activeButton) {
+                            return activeButton.textContent;
+                        }
+                    }
+                }
+                return '';
+            }
+            
+            // Функция для обновления изображений в карусели
+            function updateCarouselImages(images) {
+                const carouselContainer = document.querySelector('.carousel-images');
+                if (carouselContainer) {
+                    // Очищаем текущие изображения
+                    carouselContainer.innerHTML = '';
+                    
+                    // Добавляем новые изображения
+                    images.forEach(image => {
+                        const img = document.createElement('img');
+                        img.src = image.url;
+                        img.alt = '';
+                        carouselContainer.appendChild(img);
+                    });
+                }
+            }
+            
+            // Функция для обновления названия товара
+            function updateProductTitle(title, price) {
+                const titleElement = document.querySelector('.product-title');
+                const priceElement = document.querySelector('.product-price')
+                if (titleElement) {
+                    titleElement.textContent = title;
+                    
+                    priceElement.textContent = price;
+                }
+            }
+
+
+            function getCsrfToken() {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, 'csrftoken='.length) === 'csrftoken=') {
+                            cookieValue = decodeURIComponent(cookie.substring('csrftoken='.length));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            
+            
+
+            
+
+
+        
+            // Инициализируем тумблеры
+            initializeOptionToggles();
+        
+            // ------------- Управление корзиной -------------
+            const MAX_QUANTITY = 15;
+            const addToCartBtn = document.getElementById('add-to-cart-btn');
+            const buyNowBtn = document.getElementById('buy-now-btn');
+            const goToCartBtn = document.getElementById('go-to-cart-btn');
+            const quantityControl = document.getElementById('quantity-control');
+            const buyNowButton = document.getElementById('buy-now-btn');
+            const decreaseButton = document.getElementById('decrease-button');
+            const increaseButton = document.getElementById('increase-button');
+
+            // Получаем начальное количество из сессии
+            console.log("Элемент quantityDisplay:", quantityDisplay);
+            console.log("Текстовое содержимое quantityDisplay:", quantityDisplay ? quantityDisplay.textContent : "Элемент не найден");
+            
+
+        
+
+
+        
+            function updateQuantity(newQuantity, action = '') {
+                const objChoiceId = document.getElementById('hidden-obj-choice-id').value;
+                console.log(document.getElementById('hidden-obj-choice-id'));
+
+
+                const url = `/cart/update_product_quantity/${objChoiceId}/`;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ 
+                        quantity: newQuantity, 
+                        action: action,
+                        // Добавляем выбранные опции к запросу
+                        options: {
+                            memory: localStorage.getItem('selected_Память'),
+                            color: localStorage.getItem('selected_Цвет'),
+                        }
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success' && action === 'buy_now_increase') {
+                        window.location.href = '/cart_shopping/';
+                    }
+                    else if (data.status === 'success') {
+                        currentQuantity = newQuantity;
+                        quantityDisplay.textContent = currentQuantity;
+                        document.querySelector('.cart-count').textContent = data.total_count;
+                       
+                       
+                        updateUIState(action);
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при обновлении количества:', error);
+                });
+            }
+        
+            function updateUIState(action) {
+                if (action === 'add_to_cart' || currentQuantity > 0) {
+                    addToCartBtn.style.display = 'none';
+                    buyNowBtn.style.display = 'none';
+                    quantityControl.style.display = 'flex';
+                    goToCartBtn.style.display = 'block';
+                } else if (action === 'remove' || currentQuantity === 0) {
+                    addToCartBtn.style.display = 'block';
+                    buyNowBtn.style.display = 'block';
+                    quantityControl.style.display = 'none';
+                    goToCartBtn.style.display = 'none';
+                }
+        
+                increaseButton.disabled = currentQuantity >= MAX_QUANTITY;
+            }
+        
+            // Инициализируем начальное состояние
+            initializeUIState();
+        
+            // Обработчики событий корзины
+            addToCartBtn.addEventListener('click', () => {
+                if (currentQuantity === 0) {
+                    updateQuantity(1, 'add_to_cart');
+                }
+            });
+        
+            decreaseButton.addEventListener('click', () => {
+                if (currentQuantity === 1) {
+                    updateQuantity(0, 'remove');
+                } else if (currentQuantity > 1) {
+                    updateQuantity(currentQuantity - 1, 'decrease');
+                }
+            });
+        
+            increaseButton.addEventListener('click', () => {
+                if (currentQuantity < MAX_QUANTITY) {
+                    updateQuantity(currentQuantity + 1, 'increase');
+                }
+            });
+
+            buyNowButton.addEventListener('click', () => {
+                if (currentQuantity < MAX_QUANTITY) {
+                    updateQuantity(currentQuantity + 1, 'buy_now_increase');
+                }
+            });
+            
+        });
+    </script>
+</body>
+</html>

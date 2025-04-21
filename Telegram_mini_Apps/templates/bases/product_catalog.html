@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="{% static 'css/product_catalog.css' %}">
+    <script src="{% static 'js/product_catalog.js' %}"></script>
+
+</head>
+
+<body>
+    <section class="top-section">
+        <!-- Добавляем корзину в правый верхний угол с временным хэш-линком -->
+        <div class="cart-icon" onclick="window.location.href='{% url 'shopping' %}'">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+            </svg>
+            <span class="cart-count">{{total_quantity}}</span>
+        </div>
+        
+        <div class="company-title">BobProject</div>
+        
+        <div class="logo-container">
+            <div class="logo">
+                <img src="https://w7.pngwing.com/pngs/779/601/png-transparent-apple-logo-symbol-black-logo-circle-apple-2-logo-black-apple.png" alt="BobProject Logo">
+            </div>
+        </div>
+        
+        <div class="company-description">
+            Мы – специализированный интернет-магазин техники Apple, предлагающий широкий ассортимент качественных устройств с гарантией и поддержкой.
+        </div>
+        
+        <div class="faq-container" >
+            <div class="faq-block" onclick="window.location.href='{% url 'FAQ_pay_delivery'%}'">
+                <p>Доставка и оплата</p>
+            </div> 
+            <div class="faq-block"  onclick="window.location.href='{% url 'FAQ_guarantee'%}'">
+                <p>Гарантия</p>
+            </div>
+            <div class="faq-block"  onclick="window.location.href='{% url 'FAQ_contacts'%}'">
+                <p>Контакты</p>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="catalog-container">
+        <div class="catalog-header">
+            <h1>Каталог товаров</h1>
+            <span class="subtitle">Выберите подходящую категорию товаров</span>
+        </div>
+
+
+        
+            <div class="product-container">
+                <div class="carousel-container" id="carouselContainer">
+                    <div class="carousel-track" id="carouselTrack">
+                        {% for key, value in CATEGORY_CHOICES %}
+                        <div class="carousel-item">
+                            <div class="product-image-container" onclick="window.location.href='{% url 'category' key %}'">
+                                <img src="/media/category/{{ key }}.png" alt="{{ value }}">
+                                <div class="product-title">{{ value }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    {% block content %}
+        
+    {% for order, block in blocks_data.items %}
+        <div class="catalog-header">
+            <h1>{{block.title}}</h1>
+            <span class="subtitle">{{block.description}}</span>
+        </div>
+    
+        <div class="carousel2-container" id="carouselContainer">
+            <div class="carousel2-track" id="carouselTrack">
+                    {% for variant in block.variants %}
+                        <div class="carousel2-item">
+                            <div class="product2-image-container" onclick="window.location.href='{% url 'page' variant.product_variants.0.id %}'">
+                                {% if variant.images %}
+                                    <img src="{{ variant.images.0.url }}" alt="">
+                                {% else %}
+                                    <img src="/static/default-image.jpg" alt="Изображение отсутствует">
+                                {% endif %}
+                                <div class="product2-title">{{ variant.full_title }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+        </div>
+    {% endfor %}
+    {% endblock %}
+
+
+
+
+
+    <script>
+
+    </script>
+</body>
+</html>

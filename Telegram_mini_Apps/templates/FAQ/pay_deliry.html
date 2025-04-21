@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="{% static 'css/pay_deliry.css' %}">
+    <script src="{% static 'js/pay_deliry.js' %}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <div class="back-arrow" onclick="location.replace(document.referrer)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </div>
+            <h1 class="section-title">Доставка и оплата</h1>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <h2 class="subsection-title">Самовывоз</h2>
+                <p class="text-block">Вы можете забрать свой заказ в нашем магазине по адресу: [Адрес магазина].</p>
+                <p class="text-block">Самовывоз доступен в день заказа при наличии товара на складе магазина.</p>
+                <p class="text-block">Перед приездом обязательно дождитесь подтверждения готовности заказа от менеджера.</p>
+                <p class="text-block">При самовывозе вы можете проверить товар на месте перед покупкой.</p>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Доставка</h2>
+                <p class="text-block">Мы осуществляем доставку по всей России курьерской службой.</p>
+                <p class="text-block">Доставка по городу осуществляется в течение 1-2 дней.</p>
+                <p class="text-block">Доставка в регионы занимает от 3 до 7 рабочих дней.</p>
+                <p class="text-block">Стоимость доставки рассчитывается индивидуально в зависимости от адреса.</p>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Способы оплаты</h2>
+                <ul class="payment-methods">
+                    <li>Наличный расчет (предоставляется скидка 20%)</li>
+                    <li>Онлайн оплата на сайте (Яндекс Пэй, СБП)</li>
+                    <li>Рассрочка или кредит до 36 месяцев</li>
+                </ul>
+                
+                <div class="payment-icons">
+                    <img src="https://bazamore.ru/upload/images/payment/payment.png" alt="Способы оплаты">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+

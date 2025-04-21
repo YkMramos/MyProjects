@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа</title>
+    <link rel="stylesheet" href="{% static 'css/checkout_page.css' %}">
+    <script src="{% static 'js/checkout_page.js' %}"></script>
+
+</head>
+<body>
+    <div class="form-container">
+        <div class="header-container">
+            <div class="back-arrow" onclick="goBack()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1 class="section-title">Оформление заказа</h1>
+        </div>
+
+        <form id="orderForm">
+            <!-- Блок 1: Персональные данные -->
+            <div class="form-block">
+                <h2>Персональные данные</h2>
+
+                <div class="form-group">
+                    <label for="lastname">Фамилия</label>
+                    <input type="text" id="lastname" name="lastname" required>
+                    <div class="error-message" id="lastname-error">Укажите фамилию</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="firstname">Имя</label>
+                    <input type="text" id="firstname" name="firstname" required>
+                    <div class="error-message" id="firstname-error">Укажите имя</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="middlename">Отчество</label>
+                    <input type="text" id="middlename" name="middlename">
+                </div>
+            </div>
+
+            <!-- Блок 2: Адрес -->
+            <div class="form-block">
+                <h2>Адрес доставки</h2>
+
+                <div class="form-group">
+                    <label for="city">Город</label>
+                    <input type="text" id="city" name="city" required>
+                    <div class="error-message" id="city-error">Укажите город</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="street">Улица</label>
+                    <input type="text" id="street" name="street" required>
+                    <div class="error-message" id="street-error">Укажите улицу</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="house">Дом</label>
+                    <input type="text" id="house" name="house" required>
+                    <div class="error-message" id="house-error">Укажите номер дома</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="building">Корпус</label>
+                    <input type="text" id="building" name="building">
+                </div>
+
+                <div class="form-group">
+                    <label for="apartment">Квартира</label>
+                    <input type="text" id="apartment" name="apartment">
+                </div>
+            </div>
+
+            <!-- Блок 3: Контактные данные -->
+            <div class="form-block">
+                <h2>Контактные данные</h2>
+
+                <div class="form-group">
+                    <label for="phone">Номер телефона</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+7 ..." required maxlength="12">
+                    <div class="error-message" id="phone-error">Укажите корректный номер телефона (10 цифр)</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message" id="email-error">Укажите корректный e-mail</div>
+                </div>
+            </div>
+
+            <!-- Блок 4: Способ доставки -->
+            <div class="form-block">
+                <h2>Способ доставки</h2>
+
+                <div class="radio-group" id="delivery-options">
+                    <div class="radio-option" onclick="selectDeliveryOption('courier')">
+                        <input type="radio" id="delivery-courier" name="delivery" value="courier" checked>
+                        <label class="radio-option-label" for="delivery-courier">Курьерская доставка</label>
+                    </div>
+
+                    <div class="radio-option" onclick="selectDeliveryOption('pickup')">
+                        <input type="radio" id="delivery-pickup" name="delivery" value="pickup">
+                        <label class="radio-option-label" for="delivery-pickup">Получение в пункте выдачи заказа</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Блок 5: Способ оплаты -->
+            <div class="form-block">
+                <h2>Способ оплаты</h2>
+
+                <div class="radio-group" id="payment-options">
+                    <!-- Опция только для пунктов выдачи -->
+                    <div class="radio-option payment-option" id="payment-pickup-option" onclick="selectPaymentOption('pickup')">
+                        <input type="radio" id="payment-pickup" name="payment" value="pickup">
+                        <label class="radio-option-label" for="payment-pickup">Оплата в пункте выдачи заказа</label>
+                    </div>
+
+                    <!-- Опция только для курьера -->
+                    <div class="radio-option payment-option" id="payment-courier-option" onclick="selectPaymentOption('courier')">
+                        <input type="radio" id="payment-courier" name="payment" value="courier" checked>
+                        <label class="radio-option-label" for="payment-courier">Оплата при получении</label>
+                    </div>
+
+                    <!-- Общие варианты оплаты -->
+                    <div class="radio-option payment-option" onclick="selectPaymentOption('card')">
+                        <input type="radio" id="payment-card" name="payment" value="card">
+                        <label class="radio-option-label" for="payment-card">Оплата банковской картой</label>
+                    </div>
+
+                    <div class="radio-option payment-option" onclick="selectPaymentOption('ton')">
+                        <input type="radio" id="payment-ton" name="payment" value="ton">
+                        <label class="radio-option-label" for="payment-ton">Оплата через TON</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Оформить заказ</button>
+        </form>
+    </div>
+
+    <div class="out-of-stock-overlay" id="outOfStockOverlay">
+        <div class="out-of-stock-message">
+            Заказ успешно оформлен!
+        </div>
+    </div>
+
+
+</body>
+</html>

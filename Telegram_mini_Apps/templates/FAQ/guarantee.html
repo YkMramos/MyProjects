@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="{% static 'css/guarantee.css' %}">
+    <script src="{% static 'js/guarantee.js' %}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <div class="back-arrow" onclick="location.replace(document.referrer)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </div>
+            <h1 class="section-title">Гарантии</h1>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <h2 class="subsection-title">Гарантийные обязательства</h2>
+                <p class="text-block">Продавец обязуется осуществлять гарантийный ремонт и обслуживание изделия в течение гарантийного срока.</p>
+                <p class="text-block">Гарантия не распространяется на повреждения, вызванные:</p>
+                <ul class="list">
+                    <li>Неправильным подключением или эксплуатацией в нештатном режиме.</li>
+                    <li>Действием сторонних обстоятельств (скачки напряжения, стихийные бедствия и т.д.).</li>
+                    <li>Механическими дефектами или тепловыми повреждениями.</li>
+                    <li>Повреждениями, вызванными «разгоном» процессора, материнской платы и других компонентов.</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Исключения из гарантии</h2>
+                <p class="text-block">Гарантия не распространяется в следующих случаях:</p>
+                <ul class="list">
+                    <li>Наличие следов попытки разбора, ремонта или вмешательства в устройство.</li>
+                    <li>Механические повреждения или воздействие на устройство.</li>
+                    <li>Уничтожение, повреждение или исправление оригинальных заводских номеров.</li>
+                </ul>
+                <p class="text-block">Выпадение до 4 точек на экране устройств с ЖК-дисплеем (iPad, iPhone, MacBook и т.д.) не считается существенным недостатком.</p>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Гарантийное обслуживание</h2>
+                <p class="text-block">Гарантийное обслуживание мониторов, принтеров, сканеров и другого периферийного оборудования осуществляется в специализированных сервисных центрах производителя. Доставка оборудования на ремонт осуществляется покупателем.</p>
+                <p class="text-block">При несогласии с заключением гарантийного отдела может быть проведена независимая экспертиза в соответствии с Законом о защите прав потребителей.</p>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Важно</h2>
+                <p class="text-block">Совершение покупки означает согласие покупателя с настоящими правилами.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

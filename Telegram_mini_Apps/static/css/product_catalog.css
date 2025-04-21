@@ -1,0 +1,341 @@
+:root {
+    --bg: #000;
+    --text: #fff
+    }
+    * {
+        box-sizing: border-box;
+    }
+    
+    
+    body {
+        background-color: #fff; /* Белый фон для всего документа */
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        margin: 0; /* Убираем стандартные отступы */
+    }
+
+
+    .top-section {
+        background-color: #111;
+        color: var(--text);
+        padding: 35px;
+        text-align: center;
+        border-bottom: 2px solid var(--primary-color);
+        width: 100%;
+        max-height: 480px;
+        margin: 0 auto;
+        position: relative; /* Added to position the cart icon */
+    }
+
+
+
+    /* Стили для кнопки "Корзина" */
+    .cart-icon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border: 2px solid #007AFF;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .cart-icon:hover {
+        background-color: #007AFF;
+    }
+
+    .cart-icon:hover svg {
+        stroke: white;
+    }
+
+    .cart-icon svg {
+        width: 24px;
+        height: 24px;
+        stroke: #007AFF;
+        stroke-width: 2;
+        transition: all 0.3s ease;
+    }
+
+    .cart-icon:active {
+        transform: scale(0.95);
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #FF3B30;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .company-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+    }
+
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .company-description {
+        max-width: 100%;
+        margin: 0 auto 15px;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        color: #ccc;
+        padding: 0 10px;
+    }
+
+    .faq-container {
+        display: flex;
+        flex-wrap: wrap;  /* Allow blocks to wrap to next line */
+        justify-content: center;
+        align-items: center;
+        gap: 10px;  /* Space between blocks */
+        width: 100%;  /* Use full width of container */
+        padding: 10px;
+    }
+    
+
+    .faq-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .faq-block {
+        flex: 0 1 auto;  /* Allow blocks to grow and shrink */
+        background-color: #222;
+        border-radius: 15px;
+        padding: 8px 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        min-width: 120px;  /* Minimum width to prevent text cramping */
+        max-width: calc(33.333% - 10px);  /* Limit block width, accounting for gap */
+    }
+    
+    .faq-block p {
+        margin: 0;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        color: #ccc;
+        white-space: normal;  /* Allow text to wrap */
+        word-wrap: break-word;  /* Ensure long words break */
+    }
+    
+    .faq-block:hover {
+        transform: scale(1.05);
+        background-color: var(--primary-color);
+    }
+    
+    @media (max-width: 320px) {
+        .faq-block {
+            min-width: 100px;
+            padding: 6px 10px;
+        }
+    }
+
+        .company-title {
+            font-size: 1.2rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+        }
+
+        .faq-block {
+            width: 80px;
+            padding: 6px 10px;
+        }
+    
+
+
+
+
+        .catalog-container {
+    max-width: 300px; /* Увеличена максимальная ширина */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white; /* Явно задаём белый фон */
+}
+
+    .catalog-header {
+        position: relative;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: none;
+    }
+
+    .catalog-header::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: #007AFF;
+        border-radius: 2px;
+    }
+
+    .catalog-header h1 {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #333;
+        position: relative;
+        display: inline-block;
+        padding-right: 20px;
+        line-height: 1.3;
+    }
+
+    .catalog-header .subtitle {
+        display: block;
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 5px;
+        font-weight: 400;
+    }
+    .carousel-container {
+        width: 100%;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        display: flex;
+        gap: 15px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 10px 0;
+        margin-bottom:10px;
+    }
+
+
+    .carousel-track {
+        display: flex;
+        gap: 15px;
+    }
+
+    .carousel-item {
+        flex: 0 0 auto;
+        width: 118px;
+        height: 118px;
+        position: relative;
+        transition: transform 0.3s ease;
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .carousel-item:hover {
+        transform: scale(1.05);
+    }
+
+    .product-image-container {
+        position: relative;
+        width: 119px;
+        height: 100%; /* Увеличена высота изображения */
+    }
+
+    .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .product-title {
+        position: absolute;
+        bottom: 0;
+        left: -1px;
+        width: 100%;
+        background-color: rgba(0,0,0,0.6);
+        color: white;
+        text-align: center;
+    }
+
+
+
+
+    .carousel2-container {
+        padding-top:200 px;
+        width: 100%;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        display: flex;
+        gap: 15px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 10px 0;
+        margin-bottom:10px;
+    }
+
+    .carousel2-track {
+        display: flex;
+        gap: 15px;
+    }
+
+    .carousel2-item {
+        flex: 0 0 auto;
+        width: 180px;
+        height: 180px;
+        position: relative;
+        transition: transform 0.3s ease;
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .carousel2-item:hover {
+        transform: scale(1.05);
+    }
+
+    .product2-image-container {
+        position: relative;
+        width: 100%;
+        height: 100%; /* Увеличена высота изображения */
+    }
+
+    .carousel2-item img {
+        width: 100%;
+        height: 85%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .product2-title {
+        position: absolute;
+        bottom: 0;
+        left: -1px;
+        width: 100%;
+        background-color: rgba(0,0,0,0.6);
+        color: white;
+        text-align: center;
+    }

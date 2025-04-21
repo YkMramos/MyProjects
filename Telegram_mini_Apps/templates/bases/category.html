@@ -1,0 +1,81 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Каталог смартфонов</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
+    <script src="{% static 'js/category.js' %}"></script>
+
+</head>
+<body>
+    <div class="top-navigation">
+        <div class="back-arrow" onclick="window.location = '{% url 'telegram_miniapp' %}'">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </div>
+        <div class="search-container">
+            <form id="search-form" method="GET" action="{% url 'search' category %}">
+                <div class="search-wrapper">
+                    <input type="text" name="query" class="search-input" placeholder="Поиск смартфонов..." id="search-input">
+                    <button type="submit" class="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007AFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+            {% if query_search %}
+            <div class="reset-search">
+                <a href="{% url 'category' category%}" class="reset-button">Сбросить все</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="cart-icon" onclick="window.location.href='{% url 'shopping' %}'">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+            </svg>
+            <span class="cart-count">{{total_quantity}}</span>
+        </div>
+    </div>
+    
+    {% if not In_stock %}
+    <div class="out-of-stock-overlay">
+        <div class="out-of-stock-message">
+            По данному запросу 
+            товар не найден
+        </div>
+    </div>
+    {% endif %}
+
+    {% block content %}
+    <div class="catalog-grid">
+        {% for obj_id, variants in products.items %}
+        {% for variant in variants %}
+        <div class="product-card" data-product-id="{{ variant.quality_id }}" >
+            <img src="{{ variant.image.0}}" alt={{variant.model_name}} class="product-image" onclick="window.location = '{% url 'page' variant.quality_id%}'">
+            <div class="product-price">{{variant.price}}₽</div>
+            <div class="product-title">{{ variant.title }}</div>
+            <div class="cart-section">
+                <button type="submit" class="cart-btn" id="add-to-cart-btn-{{variant.quality_id}}">В корзину</button>
+                <div class="quantity-control">
+                    <button type="button" class="quantity-btn decrease-button" id="decrease-button-{{variant.quality_id}}">-</button>
+                    <span class="quantity" id="quantity-display-{{variant.quality_id}}">{{variant.cart_quantity}}</span>
+                    <button type="button" class="quantity-btn increase-button" id="increase-button-{{variant.quality_id}}">+</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+    {% endblock %}
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+:root {
+    --tg-color-bg: #f4f4f4;
+    --tg-color-text: #000;
+    --tg-color-hint: #8e8e93;
+    --tg-color-button: #007aff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background-color: var(--tg-color-bg);
+    color: var(--tg-color-text);
+    margin: 0;
+    padding: 15px;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+
+.page-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Уменьшил нижний отступ */
+    position: relative;
+}
+
+.home-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #007AFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.home-icon:hover {
+    background-color: #007AFF;
+}
+
+.home-icon:hover svg {
+    stroke: white;
+}
+
+.home-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: #007AFF;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.home-icon:active {
+    transform: scale(0.95);
+}
+
+
+.cart-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.cart-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.product-item {
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.product-image {
+    width: 30%;
+    background-size: cover;
+    background-position: center;
+}
+
+.product-details {
+    width: 70%;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--tg-color-text);
+    margin: 5px 0;
+}
+
+.product-quantity-control {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 15px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.quantity-btn, .delete-btn {
+    width: 30px;
+    height: 30px;
+    background-color: #f2f2f7;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.quantity-btn:hover, .delete-btn:hover {
+    background-color: #e5e5ea;
+    transform: scale(1.05);
+}
+
+.quantity-btn:active, .delete-btn:active {
+    background-color: #d1d1d6;
+    transform: scale(0.95);
+}
+
+.delete-btn {
+    margin-left: auto;
+}
+
+.quantity-number {
+    font-size: 16px;
+}
+
+.product-quantity {
+    font-size: 14px;
+    color: var(--tg-color-hint);
+    margin-bottom: 10px;
+}
+
+.product-selected {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-selected.active {
+    background-color: #4CAF50;
+}
+
+.product-selected.inactive {
+    background-color: #8e8e93;
+}
+
+.summary {
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.summary-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.item-list {
+    margin-bottom: 15px;
+}
+
+.item-list-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.total-line {
+    border-top: 1px solid #e0e0e5;
+    margin: 15px 0;
+}
+
+.total-price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.checkout-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--tg-color-button);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.2s ease-in-out;
+}
+
+.checkout-button:hover {
+    background-color: #0066d6;
+    transform: scale(1.02);
+}
+
+.checkout-button:active {
+    background-color: #005ab8;
+    transform: scale(0.98);
+}
+
+.back-arrow {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #007AFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    transition: all 0.3s ease;
+}
+
+.back-arrow:hover {
+    background-color: #007AFF;
+}
+
+.back-arrow:hover svg {
+    stroke: white;
+}
+
+.back-arrow svg {
+    width: 24px;
+    height: 24px;
+    stroke: #007AFF;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.back-arrow:active {
+    transform: scale(0.95);
+}
+
+.section-title {
+    margin-bottom: 15px; /* Добавил отступ снизу */
+    position: relative;
+    top: -5px; /* Немного поднял заголовок */
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 20%;
+    height: 3px;
+    background-color: #007AFF;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+}
+
+
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .back-arrow {
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+
+    .section-title {
+        width: 100%;
+    }
+}

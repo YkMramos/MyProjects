@@ -1,0 +1,17 @@
+Total requests: 60
+
+HANDLER                	DEBUG  	INFO   	WARNING	ERROR  	CRITICAL
+/admin/dashboard/     	0      	0      	0      	2      	0      
+/admin/login/         	0      	0      	0      	1      	0      
+/api/v1/auth/login/   	0      	0      	0      	1      	0      
+/api/v1/checkout/     	0      	0      	0      	1      	0      
+/api/v1/orders/       	0      	0      	0      	2      	0      
+/api/v1/payments/     	0      	0      	0      	1      	0      
+/api/v1/shipping/     	0      	0      	0      	1      	0      
+/api/v1/support/      	0      	0      	0      	3      	0      
+200                   	0      	17     	0      	0      	0      
+201                   	0      	17     	0      	0      	0      
+204                   	0      	14     	0      	0      	0      
+                      	0      	48     	0      	12     	0      
+HANDLER                	DEBUG  	INFO   	WARNING	ERROR  	CRITICAL
+                      	0      	48     	0      	12     	0      

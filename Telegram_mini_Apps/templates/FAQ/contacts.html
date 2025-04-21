@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
+    <script src="{% static 'js/contacts.js' %}"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <div class="back-arrow" onclick="location.replace(document.referrer)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </div>
+            <h1 class="section-title">Контакты</h1>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <h2 class="subsection-title">Режим работы</h2>
+                <p class="text-block">Друзья, мы работаем ежедневно и рады видеть вас в шоуруме с <strong>11:00 до 20:00</strong>.</p>
+                <p class="text-block">Также мы готовы ответить на все ваши вопросы по телефону ежедневно с <strong>10:00 до 20:00</strong>.</p>
+                <p class="text-block"><strong>Внимание:</strong> при самовывозе необходимо заранее оформить заказ. Не забудьте связаться с нами перед приездом.</p>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Способы связи</h2>
+                <p class="text-block">Вы всегда можете получить техническую поддержку и консультацию следующими способами:</p>
+                <ul class="list">
+                    <li>Сделать заказ на нашем сайте в любой день недели и в любое время суток.</li>
+                    <li>Позвонить по многоканальным телефонам в Москве:
+                        <ul class="list">
+                            <li>+7 (499) 999-99-99</li>
+                            <li>+7 (495) 555-55-55</li>
+                        </ul>
+                    </li>
+                    <li>Написать в мессенджерах: <strong>WhatsApp</strong>, <strong>Telegram</strong>.</li>
+                    <li>Воспользоваться <strong>online-консультантом</strong> на нашем сайте (кнопка "Нужна помощь?" в нижнем правом углу экрана).</li>
+                    <li>Написать в наших социальных сетях:
+                        <ul class="list">
+                            <li><a href="#" target="_blank">BobProject Вконтакте</a></li>
+                            <li><a href="#" target="_blank">BobProject Телеграм</a></li>
+                            <li><a href="#" target="_blank">BobProject Твиттер</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Электронная почта</h2>
+                <p class="text-block">Свяжитесь с нами по email:</p>
+                <ul class="list">
+                    <li><a href="mailto:info@biggeek.ru">bob@project.ru</a> – общие вопросы и консультации по ассортименту.</li>
+                    <li><a href="mailto:pr@biggeek.ru">bob@project.ru</a> – для блогеров и предложений по сотрудничеству.</li>
+                    <li><a href="mailto:ad@biggeek.ru">bob@project.ru</a> – размещение рекламы на наших ресурсах.</li>
+                    <li><a href="mailto:buy@biggeek.ru">bob@project.ru</a> – предложения по закупке и продаже товаров.</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Обратная связь</h2>
+                <p class="text-block">Мы дорожим своей репутацией. Если вы остались недовольны нашей работой, пожалуйста, позвоните по телефону <strong>8 (999) 999-99-99</strong> – мы решим проблему максимально быстро.</p>
+            </div>
+
+            <div class="subsection">
+                <h2 class="subsection-title">Шоурум в Москве</h2>
+                <p class="text-block">Забрать заказанный товар вы можете в нашем шоуруме по адресу:</p>
+                <p class="text-block"><strong>Москва, Багратионовский проезд, д. 7 к. 20В</strong></p>
+                <p class="text-block">Вход в арку, налево по указателю. Оформление пропуска не требуется.</p>
+                <p class="text-block">Ближайшие станции метро: <strong>Багратионовская</strong> или <strong>Фили</strong> (пешая прогулка займет около 5 минут).</p>
+                <p class="text-block">График работы шоурума: <strong>ежедневно с 11:00 до 20:00</strong>.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

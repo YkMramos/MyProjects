@@ -1,0 +1,20 @@
+
+version: '3.8'
+
+services:
+  web:
+    container_name: TeleMiniApp
+    build: .
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 app.wsgi:application"
+    volumes:
+      - .:/code
+      - static_volume:/code/staticfiles
+    ports:
+      - "82:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings.prod
+      - TZ=Europe/Moscow
+    restart: always
+
+volumes:
+  static_volume:

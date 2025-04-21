@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Корзина</title>
+    <link rel="stylesheet" href="{% static 'css/shopping_cart.css' %}">
+    <script src="{% static 'js/shopping_cart.js' %}"></script>
+
+</head>
+
+{% block content %}
+<div class="cart-container">
+    <div class="page-header">
+        <div class="back-arrow" onclick="location.replace(document.referrer)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </div>
+        <div class="home-icon" onclick="window.location.href='/'">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+        </div>
+    </div>
+            <h1 class="section-title">Корзина</h1>
+    </div>
+    {% for key, value in request.session.items %}
+    {% if key == "cart" %}
+        {% for item, details in value.items %}
+        <div class="product-item" data-product-id="{{ item }}" data-product-oneprice-id="{{details.one_price}}">
+
+
+            <input type="hidden" id="product-{{details.product_id}}" value="{{details.product_id}}">
+
+            
+            <div class="product-image" style="background-image: url('{{ details.card_image.0 }}');" onclick="window.location =  '{% url 'page' item  %}'"></div>
+            <div class="product-details">
+                <div class="product-name">{{ details.model_name}} {{details.quality}} {{details.tumblers.tumbler1}}</div>
+                <div class="product-quantity">{{details.quality}}, {{details.tumblers.tumbler1}}</div>
+                
+                <div class="product-price" id="product-price-{{ item }}" data-initial-price="{{ details.price }}">
+                    {{ details.price }} ₽
+                </div>
+                <div class="product-quantity-control">
+                    <div class="quantity-controls">
+                        <button class="quantity-btn decrease-button">-</button>
+                        <span class="quantity-number">{{ details.quantity }}</span>
+                        <button class="quantity-btn increase-button">+</button>
+                    </div>
+                    <button class="delete-btn" onclick="removeProduct('{{ item }}')">🗑️</button>
+                </div>
+                <div class="product-selected active" onclick="toggleSelection(this)"></div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endfor %}
+    
+    <div class="summary">
+        <h2 class="summary-title">Итого</h2>
+        {% for key, value in request.session.items %}
+        {% if key == "cart" %}
+            {% for item, details in value.items %}
+            <div class="item-list">
+                <div class="item-list-detail" data-product-id="{{ item }}">
+                    <span class="item-name">{{details.model_name}} {{details.quality}} {{details.tumblers.tumbler1}}</span>
+                    <span class="item-total">
+                        <span class="item-quantity">{{ details.quantity }}</span> × {{ details.one_price}} ₽
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="total-line"></div>
+        <div class="total-price">
+            <span>Итого</span>
+            <span class="total-amount">{{total_price}} ₽</span>
+    </div>
+    
+    <button class="checkout-button" onclick="window.location =  '{% url 'checkout_page'%}'">К оформлению</button>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>
