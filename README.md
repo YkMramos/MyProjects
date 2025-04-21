@@ -1,5 +1,12 @@
 # MyProjects
 
+
+This repository contains examples of projects I have implemented:
+
+AnalyzeLog: A tool for analyzing logs of a running program.
+Telegram Mini App: An application developed using the Django framework (backend), the aiogram library (interaction with the Telegram Bot API), and a SQLite database (default for storing model data in Django). The project is configured for deployment with Docker, and the Nginx web server handles requests. The application is fully functional and ready for use. You can explore its functionality via the Telegram bot: @TestArt1562bot.
+
+__________________________________________________________________
 В данном репозитории собраны примеры проектов, реализованных мною:
 
 - AnalyzeLog: Инструмент для анализа логов запущенной программы.
